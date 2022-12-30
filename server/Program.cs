@@ -36,4 +36,6 @@ var api = app.MapGroup("/api");
   api.MapDelete("/{name}", (string name) => $"Hello {name}! I am a DELETE man.");
 }
 
+app.UseRouting();
+
 app.Run("http://+:8080");
