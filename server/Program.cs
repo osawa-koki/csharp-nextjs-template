@@ -15,7 +15,25 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseDefaultFiles();
+app.UseStaticFiles();
 
-app.MapGet("/", () => "Hello World!");
+// SSG(Nextjs)のリロード用
+string[] pages = new string[] {
+  "index",
+  "about",
+};
+app.MapGet($"/", () => Results.Text(File.ReadAllText($"./wwwroot/index.html"), "text/html"));
+foreach (var page in pages)
+{
+  app.MapGet($"/{page}", () => Results.Text(File.ReadAllText($"./wwwroot/{page}.html"), "text/html"));
+}
+
+var api = app.MapGroup("/api");
+{
+  api.MapGet("/{name}", (string name) => $"Hello {name}! I am a GET man.");
+  api.MapPost("/{name}", (string name) => $"Hello {name}! I am a POST man.");
+  api.MapPut("/{name}", (string name) => $"Hello {name}! I am a POST man.");
+  api.MapDelete("/{name}", (string name) => $"Hello {name}! I am a DELETE man.");
+}
 
 app.Run("http://+:8080");
