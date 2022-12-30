@@ -17,17 +17,6 @@ if (app.Environment.IsDevelopment())
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// SSG(Nextjs)のリロード用
-string[] pages = new string[] {
-  "index",
-  "about",
-};
-app.MapGet($"/", () => Results.Text(File.ReadAllText($"./wwwroot/index.html"), "text/html"));
-foreach (var page in pages)
-{
-  app.MapGet($"/{page}", () => Results.Text(File.ReadAllText($"./wwwroot/{page}.html"), "text/html"));
-}
-
 var api = app.MapGroup("/api");
 {
   api.MapGet("/{name}", (string name) => $"Hello {name}! I am a GET man.");
