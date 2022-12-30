@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
 
 const AboutPage = () => (
-  <Layout title="Nextjsテンプレートについて。">
+  <Layout title="about (csharp-nextjs-template)">
     <h1>About</h1>
     <p>This is the about page</p>
     <ul>
