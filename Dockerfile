@@ -1,7 +1,7 @@
-# FROM node:19-bullseye-slim AS WEB_CLIENT
-# WORKDIR /usr/src
-# COPY ./web_client ./web_client
-# RUN cd ./web_client && yarn install && yarn build
+FROM node:19-bullseye-slim AS web_client
+WORKDIR /usr/src
+COPY ./client ./client
+RUN cd ./client && yarn install && yarn build
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
@@ -20,5 +20,5 @@ RUN dotnet publish server.csproj -c Release -o /app/publish /p:UseAppHost=false
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-# COPY --from=WEB_CLIENT /usr/src/web_client/dist ./wwwroot
+COPY --from=web_client /usr/src/client/dist ./wwwroot
 ENTRYPOINT ["dotnet", "server.dll"]
